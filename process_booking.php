@@ -56,13 +56,84 @@
     //Retrieve customer information
     $customer = $result->fetch_assoc();
 
-    //Display customer information
-    echo "<h1>Customer Information</h1>";
+    //---------------------
+    // COST CALCULATIONS
+    //---------------------
 
-    echo "Customer Code: " . htmlspecialchars($customer["customer_code"]) . "<br>";
-    echo "Customer Name: " . htmlspecialchars($customer["name"]) . "<br>";
-    echo "City: " . htmlspecialchars($customer["city"]) . "<br>";
-    echo "Distance: " . htmlspecialchars($distance) . " km<br>";
+    //Distance charge: R45 per kilometre
+    $distance_charge = $distance * 45;
+
+    //Labour cost: 5% of the distance charge
+    $labour_cost = $distance_charge * 0.05;
+
+    //Work time: 4.5 hours per kilometre
+    $work_hours = $distance * 4.5;
+
+    //Hourly fee: R1250 per hour
+    $hourly_cost = $work_hours * 1250;
+
+    //Total cost before VAT
+    $subtotal = $distance_charge + $labour_cost + $hourly_cost;
+
+    //VAT: 15%
+    $vat = $subtotal * 0.15;
+
+    //Final project cost
+    $total_cost = $subtotal + $vat;
+
+    //Display Project cost breakdown
+
+    echo "<h1>Project Cost Breakdown</h1>";
+
+    echo "<h3>Customer Details</h3>";
+
+    echo "<p><strong>Customer Code:</strong> "
+          . htmlspecialchars($customer["customer_code"])
+          . "</p>";
+    
+    echo "<p><strong>Customer Name:</strong> "
+          . htmlspecialchars($customer["name"])
+          . "</p>";
+
+    echo "<p><strong>City:</strong> "
+          . htmlspecialchars($customer["city"])
+          . "</p>";
+
+    echo "<p><strong>Distance:</strong> "
+          . number_format($distance, 2)
+          . "</p>";
+
+    echo "<h3>Cost Details</h3>";
+
+    echo "<p><strong>Distance Charge:</strong> R"
+         . number_format($distance_charge, 2)
+         . "</p>";
+
+    echo "<p><strong>Labour Cost:</strong> R"
+         . number_format($labour_cost, 2)
+         . "</p>";
+
+    echo "<p><strong>Total Work Time:</strong> R"
+         . number_format($work_hours, 2)
+         . "</p>";
+
+    echo "<p><strong>Hourly Cost:</strong> R"
+         . number_format($hourly_cost, 2)
+         . "</p>";
+
+    echo "<p><strong>Total Before VAT:</strong> R"
+         . number_format($subtotal, 2)
+         . "</p>";
+
+    echo "<p><strong>VAT (15%):</strong> R"
+         . number_format($vat, 2)
+         . "</p>";
+
+    echo "<h3>Total Project Cost: R"
+         . number_format($total_cost, 2)
+         . "</h3>";
+
+    
 
     $stmt->close();
     $conn->close();
